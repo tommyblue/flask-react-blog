@@ -1,0 +1,39 @@
+#content {
+  width: 1080px;
+  margin: 0 auto;
+}
+.newPostBox {
+  background-color: #ededed;
+  padding: 1em;
+}
+.clear {
+  clear: both;
+  float: none;
+}
+.newPostForm input, .newPostForm textarea {
+  display: block;
+  margin-bottom: 1em;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  padding: 4px;
+  width: 50%;
+}
+
+.postContentPreview {
+  width: 44%;
+  float: left;
+  min-height: 2em;
+  border: 2px solid #ccc;
+  margin-left: 1%;
+  border-radius: 4px;
+  padding: 0 1em 1em;
+}
+
+.newPostForm textarea {
+  height: 200px;
+  float: left;
+}
+
+.newPostForm input[type=submit] {
+  width: 200px;
+}
