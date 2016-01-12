@@ -10,9 +10,6 @@ var PostsBox = React.createClass({
       cache: false,
       success: function(result) {
         this.setState({posts: result.posts});
-      }.bind(this),
-      error: function(hxr, status, err) {
-        console.error('/posts', status, err.toString());
       }.bind(this)
     });
   },
@@ -30,9 +27,6 @@ var PostsBox = React.createClass({
       data: { title: title, content: content },
       success: function(result) {
         this.setState({posts: result.posts});
-      }.bind(this),
-      error: function(hxr, status, err) {
-        console.error('/posts', status, err.toString());
       }.bind(this)
     });
   },
@@ -44,9 +38,6 @@ var PostsBox = React.createClass({
       type: 'DELETE',
       success: function(result) {
         this.setState({posts: result.posts});
-      }.bind(this),
-      error: function(hxr, status, err) {
-        console.error('/posts', status, err.toString());
       }.bind(this)
     });
   },
@@ -124,7 +115,7 @@ var PostsList = React.createClass({
         <div key={post.id} className="postsList">
           <Post id={post.id} title={post.title} content={post.content} pubDate={post.pub_date} onPostDelete={this.props.onPostDelete}/>
         </div>
-      )
+      );
     }.bind(this));
     return (
       <div className="postsList">
