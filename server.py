@@ -92,6 +92,6 @@ def not_found(error):
 if not os.path.isfile(db_file):
     init_db()
 
+
 if __name__ == "__main__":
-    app.debug = True
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3500, debug=True)

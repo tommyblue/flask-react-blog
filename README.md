@@ -4,11 +4,29 @@ This is a simple blog-like app built with Flask (as backend) and React.js (as fr
 
 The main target of this app is to learn the basics of these two frameworks.
 
-## Requirements
+## Docker
+
+A `Dockerfile` is ready to build a docker image. The current folder is linked
+with it so you can edit local files and the docker image will update automatically.
+
+To use the docker image you only need to have docker installed locally, then type:
+
+```
+docker build -t tommyblue/react-blog .
+docker run -d -p 3500:3500 -v `pwd`:/srv:ro --name react-blog tommyblue/react-blog python /srv/server.py
+```
+
+You can verify that the container is running (and that it's using the right port) with `docker ps -l`.
+
+Connect to the app pointing your browser to `http://localhost:3500/`
+
+## Manual install
+
+### Requirements
 
 The only requirements are **Python** and **Pip**
 
-## Install
+### Install
 
 
 ```
@@ -18,7 +36,7 @@ mkvirtualenv -a `pwd` -r requirements.txt flask
 pip install -r requirements.txt
 ```
 
-## Run the server
+### Run the server
 
 ```
 python server.py
