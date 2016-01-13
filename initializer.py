@@ -10,12 +10,24 @@ try:
 except:
     password = ''
 
+try:
+    port = os.environ['POSTGRES_PORT_5432_TCP_PORT']
+except:
+    port = '5432'
+
+try:
+    host = os.environ['POSTGRES_PORT_5432_TCP_ADDR']
+except:
+    host = 'localhost'
+
 db_conf = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{db}'.format(
-    host=os.environ['POSTGRES_PORT_5432_TCP_ADDR'],
-    port=os.environ['POSTGRES_PORT_5432_TCP_PORT'],
+    host=host,
+    port=port,
     db='postgres',
     user='postgres',
     password=password
 )
 app.config['SQLALCHEMY_DATABASE_URI'] = db_conf
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
