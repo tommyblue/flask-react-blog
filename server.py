@@ -1,19 +1,8 @@
 from flask import jsonify, request, abort, render_template
 from sqlalchemy import desc
 from sqlalchemy.orm.exc import NoResultFound
-import os.path
 from models import Post
-from initializer import db, app, db_file
-
-
-def init_db():
-    db.create_all()
-    post_1 = Post("Post #1", "Test for the **content** with markdown")
-    db.session.add(post_1)
-    post_2 = Post("Post #2", "# Great news\nThis should be the first _post_"
-                  "in the list")
-    db.session.add(post_2)
-    db.session.commit()
+from initializer import db, app
 
 
 @app.route("/")
@@ -89,9 +78,18 @@ def bad_request(error):
 def not_found(error):
     return jsonify({'error': 'Not Found'}), 404
 
-if not os.path.isfile(db_file):
-    init_db()
 
+def init_db():
+    db.create_all()
+    posts = Post.query.all()
+    if len(posts) == 0:
+        post_1 = Post("Post #1", "Test for the **content** with markdown")
+        db.session.add(post_1)
+        post_2 = Post("Post #2", "# Great news\nThis should be the first"
+                      "_post_ in the list")
+        db.session.add(post_2)
+        db.session.commit()
 
 if __name__ == "__main__":
+    init_db()
     app.run(host='0.0.0.0', port=3500, debug=True)

@@ -13,12 +13,22 @@ To use the docker image you only need to have docker installed locally, then typ
 
 ```
 docker build -t tommyblue/react-blog .
-docker run -d -p 3500:3500 -v `pwd`:/srv:ro --name react-blog tommyblue/react-blog python /srv/server.py
+docker run --name react-pg -d postgres
+docker run -d -p 3500:3500 -v `pwd`:/srv:ro --name react-blog --link react-pg:postgres tommyblue/react-blog python /srv/server.py
 ```
 
 You can verify that the container is running (and that it's using the right port) with `docker ps -l`.
 
 Connect to the app pointing your browser to `http://localhost:3500/`
+
+**Note:**
+
+If you want to protect the access to the database with a password, use this:
+
+```
+docker run --name react-pg -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+```
+The app will automatically use it.
 
 ## Manual install
 

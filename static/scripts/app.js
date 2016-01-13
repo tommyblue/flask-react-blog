@@ -1,3 +1,4 @@
+/* global React ReactDOM $ marked*/
 var PostsBox = React.createClass({
   getInitialState: function() {
     return {posts: []};
