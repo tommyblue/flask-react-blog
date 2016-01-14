@@ -3,6 +3,18 @@ from sqlalchemy import desc
 from sqlalchemy.orm.exc import NoResultFound
 from models import Post
 from initializer import db, app
+from marshmallow import Schema
+
+
+class PostSchema(Schema):
+    """
+    Post serializer
+    """
+    class Meta:
+        fields = ('id', 'title', 'content', 'pub_date')
+
+posts_schema = PostSchema(many=True)
+post_schema = PostSchema()
 
 
 @app.route("/")
@@ -13,14 +25,11 @@ def index():
 @app.route("/posts", methods=['GET', 'POST'])
 def single_post():
     if request.method == 'POST':
-        if create_post(request.form['title'], request.form['content']):
-            posts = get_posts()
-            return jsonify({'posts': [post.serialize() for post in posts]})
-        else:
+        if not create_post(request.form['title'], request.form['content']):
             abort(400)
-    else:
-        posts = get_posts()
-        return jsonify({'posts': [post.serialize() for post in posts]})
+
+    posts = get_posts()
+    return jsonify({'posts': posts_schema.dump(posts).data})
 
 
 @app.route("/posts/<int:post_id>", methods=['GET', 'DELETE'])
@@ -28,12 +37,12 @@ def show_post(post_id):
     if request.method == 'DELETE':
         if delete_post(post_id):
             posts = get_posts()
-            return jsonify({'posts': [post.serialize() for post in posts]})
+            return jsonify({'posts': posts_schema.dump(posts).data})
         else:
             abort(400)
     else:
         post = get_posts(post_id)
-        return jsonify(post.serialize())
+        return jsonify(post_schema.dump(post).data)
 
 
 def delete_post(post_id):
