@@ -1,23 +1,35 @@
 # ReactBlog
 
-This is a simple blog-like app built with Flask (as backend) and React.js (as frontend).
+This is a simple blog-like app built with Flask (as backend) and React.js (as
+frontend).
 
 The main target of this app is to learn the basics of these two frameworks.
 
 ## Docker
 
 A `Dockerfile` is ready to build a docker image. The current folder is linked
-with it so you can edit local files and the docker image will update automatically.
+with it so you can edit local files and the docker image will update
+automatically.
 
-To use the docker image you only need to have docker installed locally, then type:
+To use the docker image you only need to have docker installed locally, then launch
+
+```
+./runserver.sh
+```
+
+## Manually use docker
+
+If you prefer to build and launch the docker containers manually, type:
 
 ```
 docker build -t tommyblue/react-blog .
 docker run --name react-pg -d postgres
-docker run -d -p 3500:3500 -v `pwd`:/srv:ro --name react-blog --link react-pg:postgres tommyblue/react-blog python /srv/server.py
+docker run -d -p 3500:3500 -v `pwd`:/srv:ro --name react-blog \
+--link react-pg:postgres tommyblue/react-blog python /srv/server.py
 ```
 
-You can verify that the container is running (and that it's using the right port) with `docker ps -l`.
+You can verify that the containers are running (and that they're listening to
+the right port) with `docker ps -l`.
 
 Connect to the app pointing your browser to `http://localhost:3500/`
 
@@ -56,4 +68,5 @@ At the first run a new SQLite db is created (file `test.db`).
 
 ## Enjoy!
 
-Edit `server.py` to play with Flask and `static/scripts/app.js` to play with React.js
+Edit `server.py` to play with Flask and `static/scripts/app.js` to play with
+React.js
