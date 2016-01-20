@@ -2,6 +2,7 @@ import os
 import server
 import unittest
 import tempfile
+import json
 
 
 class FlaskrTestCase(unittest.TestCase):
@@ -20,10 +21,24 @@ class FlaskrTestCase(unittest.TestCase):
         os.unlink(server.app.config['DATABASE'])
         os.unlink(self.db_file)
 
-    def test_initial_page(self):
+    def test_initial_page_status_code(self):
         rv = self.app.get('/')
         # import code; code.interact(local=locals())
         assert rv.status_code == 200
+
+    def test_posts_list_status_code(self):
+        rv = self.app.get('/posts')
+        assert rv.status_code == 200
+
+    def test_posts_list_response(self):
+        rv = self.app.get('/posts')
+        data = json.loads(rv.data)
+        self.assertTrue('posts' in data)
+
+    def test_posts_list_contains_array(self):
+        rv = self.app.get('/posts')
+        data = json.loads(rv.data)
+        self.assertTrue(isinstance(data['posts'], list))
 
 if __name__ == '__main__':
     unittest.main()
